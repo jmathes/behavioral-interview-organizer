@@ -1,52 +1,9 @@
-attrs==23.1.0
-beautifulsoup4==4.12.3
-black @ file:///croot/black_1680737249031/work
-boltons @ file:///croot/boltons_1677628692245/work
-brotlipy==0.7.0
-bs4==0.0.2
-certifi @ file:///croot/certifi_1671487769961/work/certifi
-cffi @ file:///croot/cffi_1670423208954/work
-charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
-click @ file:///tmp/build/80754af9/click_1646056706450/work
-conda==23.3.1
-conda-content-trust @ file:///tmp/abs_5952f1c8-355c-4855-ad2e-538535021ba5h26t22e5/croots/recipe/conda-content-trust_1658126371814/work
-conda-package-handling @ file:///croot/conda-package-handling_1672865015732/work
-conda_package_streaming @ file:///croot/conda-package-streaming_1670508151586/work
-cryptography @ file:///croot/cryptography_1673298753778/work
-english-words==2.0.1
-futures==3.0.5
-goslate==1.5.4
+blinker==1.7.0
+click==8.1.7
+Flask==3.0.2
 gunicorn==21.2.0
-idna @ file:///croot/idna_1666125576474/work
-iniconfig==2.0.0
-jsonpatch @ file:///tmp/build/80754af9/jsonpatch_1615747632069/work
-jsonpointer==2.1
-mypy @ file:///croot/mypy_1668440235336/work
-mypy-extensions==0.4.3
-numpy==1.24.2
-packaging @ file:///croot/packaging_1678965309396/work
-pathspec @ file:///croot/pathspec_1674681560568/work
-platformdirs @ file:///opt/conda/conda-bld/platformdirs_1662711380096/work
-pluggy @ file:///tmp/build/80754af9/pluggy_1648024709248/work
-psutil @ file:///opt/conda/conda-bld/psutil_1656431268089/work
-py==1.11.0
-pycosat @ file:///croot/pycosat_1666805502580/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
-PyDictionary==2.0.1
-pyOpenSSL @ file:///opt/conda/conda-bld/pyopenssl_1643788558760/work
-PySocks @ file:///home/builder/ci_310/pysocks_1640793678128/work
-pytest==7.0.1
-pytest-describe==2.0.2
-pytest-mock==3.10.0
-requests @ file:///opt/conda/conda-bld/requests_1657734628632/work
-ruamel.yaml @ file:///croot/ruamel.yaml_1666304550667/work
-ruamel.yaml.clib @ file:///croot/ruamel.yaml.clib_1666302247304/work
-six @ file:///tmp/build/80754af9/six_1644875935023/work
-soupsieve==2.5
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
-tomli @ file:///opt/conda/conda-bld/tomli_1657175507142/work
-toolz @ file:///croot/toolz_1667464077321/work
-tqdm @ file:///opt/conda/conda-bld/tqdm_1664392687731/work
-typing_extensions @ file:///croot/typing_extensions_1681939499988/work
-urllib3 @ file:///croot/urllib3_1673575502006/work
-zstandard @ file:///opt/conda/conda-bld/zstandard_1663827383994/work
+itsdangerous==2.1.2
+Jinja2==3.1.3
+MarkupSafe==2.1.5
+packaging==24.0
+Werkzeug==3.0.1
