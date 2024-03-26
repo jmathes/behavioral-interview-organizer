@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; <a href="{{ url_for("bio.render_principles") }}">principles</a>
+        &gt; <a href=" {{ url_for("bio.render_principle", principle_id=question.principle.id) }}">{{ question.principle.name }}</a>
+        &gt; question
+    </p>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; <a href="{{ url_for("bio.render_questions") }}">question</a>
+        &gt; question
+    </p>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h1>{{ question.question }}</h1>
+    <form method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>story</th>
+                    <th>co</th>
+                    <th>year</th>
+                    <th>relevance <input class="hidden" type="submit" id="submit_rating_updates" name="update_ratings" value="Update ratings" /></th>
+                    <th title="How many other questions that need this story">ⓘ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for story, applicability, needy_competition in applicable_stories %}
+                <tr>
+                    <td>
+                    <a href="{{ url_for('bio.render_story', story_id=story.id) }}"> {{story.name}}</a>
+                    </td>
+                    <td> {{story.company}} </td>
+                    <td> {{story.year}} </td>
+                    <td>
+                        <span class="left">
+                            <input type="range" name="applicability_{{ story.id }}" min="0" max="100" step="1"
+                            class="{{ 'changed' if applicability else ''}}"
+                                value="{{ applicability.percent_applicable if applicability else 0 }}"
+                                onclick="document.getElementById('display_rating_{{ story.id }}').innerHTML = this.value;document.getElementById('hidden_applicability_{{ story.id }}').value = this.value;this.className='changed';document.getElementById('submit_rating_updates').className=''"
+                            />
+                            <input type="hidden"
+                                id="hidden_applicability_{{ story.id }}"
+                                name="hidden_applicability_{{ story.id }}"
+                                value="{{ applicability.percent_applicable if applicability else -1}}"
+                            />
+                        </span>
+                        <span class="right" id="display_rating_{{ story.id }}">{{ applicability.percent_applicable if applicability }}</span>
+                        </span>
+                    </td>
+                    <td align="center">
+                        <strong>{{ needy_competition }}</strong>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+  </body>
+</html>

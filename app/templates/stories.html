@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; stories
+    </p>
+    <h1>Stories</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Story
+                </th>
+                <th>
+                    Setting
+                </th>
+                <th>
+                    Year
+                </th>
+                <th>
+                    is the only good story for:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for story in stories: %}
+            <tr class="story">
+                <td valign="center"><a href="{{ url_for("bio.render_story", story_id=story.id) }}">{{ story.name }}</a></td>
+                <td valign="center">{{ story.company }}</td>
+                <td valign="center">{{ story.year }}</td>
+                <td>
+                {% if story.questions_that_need_me %}
+                    <ul>
+                        {% for question in story.questions_that_need_me %}
+                        <li><a href="{{ url_for("bio.render_question", question_id=question.id)}}">(link)</a> {{ question.question }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>

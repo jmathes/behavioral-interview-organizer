@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Index</h1>
+    <ul>
+      <li><a href="{{ url_for('bio.render_principles') }}">Principles</a> - general categories of question; things an interviewer is looking for</li>
+      <li><a href="{{ url_for('bio.render_questions') }}">Questions</a> - questions not sorted by principle. where you'd go in an interview.</li>
+      <li><a href="{{ url_for('bio.render_stories') }}">Stories</a> - stories you have to tell. Each story likely matches many questions</li>
+      <li><a href="{{ url_for('bio.render_cleanup') }}">Cleanup</a> - auto-generated TODO list; missing ratings, under-specified stories, etc</li>
+  </body>
+</html>

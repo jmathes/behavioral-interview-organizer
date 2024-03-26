@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; cleanup
+    </p>
+    <h1>Cleanup</h1>
+    <table class="highlevel">
+        <thead>
+            <tr>
+                <th>Stories with missing associations</th>
+                <th>Questions with missing associations</th>
+                <th>Stories with empty sections</th>
+                <th>Questions without answers</th>
+                <th>Questions with one answer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(cleanup_length) %}
+            <tr>
+                <td>
+                    {% if lonely_stories|length > i %}
+                    <span class="left">
+                        <a href="{{url_for("bio.render_story", story_id=lonely_stories[i][0].id)}}">
+                            {{lonely_stories[i][0].name}}
+                        </a>
+                    </span>
+                    <span class="right">
+                        {{lonely_stories[i][1]}}
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if lonely_questions|length > i %}
+                    <span class="left">
+                        <a href="{{url_for("bio.render_question", question_id=lonely_questions[i][0].id)}}">
+                            {{lonely_questions[i][0].question[:30]}}…
+                        </a>
+                    </span>
+                    <span class="right">
+                        {{lonely_questions[i][1]}}
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if unfinished_stories|length > i %}
+                    <a href="{{url_for("bio.render_story", story_id=unfinished_stories[i].id)}}">
+                    {{unfinished_stories[i].name}}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if unanswred_questions|length > i %}
+                    <a href="{{url_for("bio.render_question", question_id=unanswred_questions[i].id)}}">
+                    {{unanswred_questions[i].question[:30]}}…
+                    </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if underanswered_questions|length > i %}
+                    <a href="{{url_for("bio.render_question", question_id=underanswered_questions[i].id)}}">
+                    {{underanswered_questions[i].question[:30]}}…
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>

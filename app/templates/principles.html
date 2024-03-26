@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class="breadcrumb">
+      <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+      <a href="{{url_for("bio.render_index")}}">home</a>
+      &gt; principles
+    </p>
+
+    <h1>Principles / Categories</h1>
+    {% for principle in principles %}
+    <h2>
+      <a href="{{url_for("bio.render_principle", principle_id=principle.id)}}"
+        >{{ principle.name }}</a> ({{question_counts[principle.id]}} questions)
+    </h2>
+    {% endfor %}
+    <hr />
+    <h4>Add a new Principle</h4>
+    <form action="" method="post">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter name"
+      /><br /><br />
+
+      <label for="description">Description:</label><br />
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
+        cols="50"
+        placeholder="Enter description"
+      ></textarea
+      ><br /><br />
+
+      <input type="submit" value="Add Principle" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class="breadcrumb">
+      <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+      <a href="{{url_for("bio.render_index")}}">home</a>
+      &gt; <a href="{{url_for("bio.render_stories")}}">stories</a>
+      &gt; story
+    <p>
+    <table>
+      <tr>
+        <td style="vertical-align: top;">
+          <form
+            action="{{ url_for('bio.render_story', story_id=story.id) }}"
+            method="post"
+          >
+            <h1>{{story.name}} @ {{story.company}}</h1>
+            <input
+              type="text"
+              name="year"
+              id="year"
+              value="{{ story.year }}"
+              validation="^[0-9]{4}$"
+            />
+            <fieldset>
+            {% for elem in ("situation", "task", "action", "result") %}
+                <p><label for="{{elem}}">{{ elem.capitalize() }}</label></p>
+            <p><textarea name="{{elem}}" id="{{elem}}" rows="6" cols="50">
+{{ story[elem] }}</textarea
+            ></p>
+            {% endfor %}
+
+            <label for="notes">Numbers</label>
+            <p>
+                <textarea name="notes" id="notes" rows="6" cols="50">
+{{ story.notes }}</textarea
+            ></p>
+            </fieldset>
+            <p>&nbsp;</p>
+            <p>
+                <input type="submit" name="update" value="Update story" />
+                <input type="submit" name="cancel" value="Discard changes" />
+            </p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>
+                <input type="submit" name="delete" value="!! Delete story !! This will not prompt for confirmation and can't be undone" />
+            </p>
+          </form>
+        </td>
+        <td style="vertical-align: top;">
+        <form method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>is ⟺ isn't</th>
+                        <th>
+                            a good answer for ↴ <input class="hidden" type="submit" id="submit_rating_updates" name="update_ratings" value="Update ratings" />
+                        </th>
+                        <th>The only good answer?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for question, applicability in applicable_questions %}
+                <tr>
+                    <td>
+                        <span class="left">
+                            <input type="range" name="applicability_{{ question.id }}" min="0" max="100" step="1"
+                            class="{{ 'changed' if applicability else ''}}"
+                                value="{{ applicability.percent_applicable if applicability else 0 }}"
+                                onclick="document.getElementById('display_rating_{{ question.id }}').innerHTML = this.value;document.getElementById('hidden_applicability_{{ question.id }}').value = this.value;this.className='changed';document.getElementById('submit_rating_updates').className=''"
+                            />
+                            <input type="hidden"
+                                id="hidden_applicability_{{ question.id }}"
+                                name="hidden_applicability_{{ question.id }}"
+                                value="{{ applicability.percent_applicable if applicability else -1}}"
+                            />
+                        </span>
+                        <span class="right" id="display_rating_{{ question.id }}">{{ applicability.percent_applicable if applicability }}</span>
+                    </td>
+                    <td halign="left">
+                        <a href="{{ url_for('bio.render_question', question_id=question.id) }}"> {{ question.question }} </a>
+                    </td>
+                    <td>
+                        {% if question in quetions_that_need_me %}
+                            ⚠ This question has no other good answers ⚠
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+
+            </table>
+        </form>
+        </td>
+    </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; <a href="{{ url_for("bio.render_principles") }}">principles</a>
+        &gt; principle
+    </p>
+    <h1>{{ principle.name }}</h1>
+    <table><tr>
+        <td valign="top">
+        <p><em>{{ principle.description }}</em></p>
+        {% for question in questions %}
+            {% if question.id == edited_question_id %}
+                <form action="" method="post">
+                    <input type="hidden" name="question_id" value="{{ question.id }}" />
+                    <textarea
+                        id="question"
+                        name="question"
+                        rows="4"
+                        cols="50"
+                    >{{ question.question }}</textarea
+                    ><br /><br />
+                    <input type="submit" name="update" value="Update" />
+                    <input type="submit" name="cancel" value="Cancel" />
+                </form>
+            {% else %}
+                <h3><a href="{{ url_for('bio.render_question', question_id=question.id) }}">{{ question.question }}</a></h3>
+                <form action="" method="post">
+                <input type="hidden" name="question_id" value="{{ question.id }}" />
+                <input type="submit" name="edit" value="Edit" />
+                <input type="submit" name="delete" value="Delete" />
+                </form>
+            {% endif %}
+
+        {% endfor %}
+        <hr/>
+        <form action="" method="post">
+            <label for="question">Add a question:</label><br />
+            <textarea
+                id="question"
+                name="question"
+                rows="4"
+                cols="50"
+                placeholder="Why are you so awesome?"
+            ></textarea
+            ><br /><br />
+            <input type="submit" name="add" value="Add Question" />
+        </form>
+    </td>
+    <td>
+        <hr/>
+        <form action="" method="post">
+            <h3>Add a story</h3>
+            <label for="name">Short name:</label>
+            <input type="text" name="name" /><br/>
+            <label for="company">Company:</label>
+            <input type="text" name="company" /><br/>
+            <label for="year">Year:</label>
+            <input type="text" name="year" /><br/>
+
+            <label for="situation">Situation:</label><br />
+            <textarea
+            id="situation"
+            name="situation"
+            rows="4"
+            cols="50"
+            placeholder="Set the scene and give the necessary details of your example."
+            ></textarea
+            ><br />
+
+            <label for="task">Task:</label><br />
+            <textarea
+            id="task"
+            name="task"
+            rows="4"
+            cols="50"
+            placeholder="Describe what your responsibility was in that situation."
+            ></textarea
+            ><br />
+
+            <label for="action">Action:</label><br />
+            <textarea
+            id="action"
+            name="action"
+            rows="4"
+            cols="50"
+            placeholder="Explain exactly what steps you took to address it."
+            ></textarea
+            ><br />
+
+            <label for="result">Result:</label><br />
+            <textarea
+            id="result"
+            name="result"
+            rows="4"
+            cols="50"
+            placeholder="Share what outcomes your actions achieved."
+            ></textarea
+            ><br />
+
+            <label for="notes">Notes:</label><br />
+            <textarea
+            id="notes"
+            name="notes"
+            rows="4"
+            cols="50"
+            placeholder="Things to remember if you tell the story. Context, answers to potential questions."
+            ></textarea
+            ><br />
+
+            <input type="submit" name="story" value="Add Story" />
+        </form>
+      </td>
+    </tr><tr><td>
+        <h3>All Stories</h3>
+        <table>
+            {% for row in range(story_count // story_columns + 1) %}
+                <tr>
+                    {% for col in range(story_columns) %}
+                        <td valign="top">
+                            {% if row * story_columns + col < story_count %}
+                                <a href="{{ url_for('bio.render_story', story_id=stories[row * 10 + col].id) }}">{{stories[row * 10 + col].company}}:{{ stories[row * 10 + col].name }}</a>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </td></tr>
+    </table>
+  </body>
+</html>

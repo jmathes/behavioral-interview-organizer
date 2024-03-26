@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+import os
+import shlex
+import signal
+import socket
+from subprocess import Popen, getoutput
+
+import psutil
+
+conda = getoutput("which conda")
+if conda == "":
+    print("Conda not found. Please install conda and try again.")
+    print("Or set up your own env manager and find another way to do stuff")
+    exit()
+
+if os.getenv("CONDA_DEFAULT_ENV") != "bio":
+    print("Please switching conda env to bio first:")
+    print("'conda activate bio'")
+    exit()
+
+import click
+import inotify.adapters
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+@click.option(
+    "--production", "-p", is_flag=True, default=False, help="Deploy to heroku"
+)
+def migrate(production):
+    if production:
+        os.system("heroku run flask db upgrade")
+    else:
+        os.system("flask db upgrade")
+
+
+@cli.command()
+def run():
+    bio_dir = os.path.dirname(os.path.realpath(__file__))
+    notifier = inotify.adapters.Inotify()
+    watched = set()
+
+    def refresh_watched():
+        for root, _, _ in os.walk(bio_dir):
+            if root.startswith("./.git"):
+                continue
+            if root in watched:
+                continue
+            watched.add(root)
+            notifier.add_watch(root)
+
+    def on_terminate(proc):
+        print("process {} terminated with exit code {}".format(proc, proc.returncode))
+
+    gunicorn_cmd = "gunicorn app:app"
+
+    app_subprocess = Popen(shlex.split(gunicorn_cmd))
+
+    refresh_watched()
+
+    for event in notifier.event_gen():
+        if event is not None:
+            if "WRITE" in ("_".join(event[1])).split("_") and "app.db" not in event[3]:
+                print("======== restarting server =========")
+                print(event)
+                print("---------- terminating server --------")
+                app_subprocess.terminate()
+                app_subprocess.wait()
+                refresh_watched()
+                print("---------- starting new server --------")
+                app_subprocess = Popen(shlex.split(gunicorn_cmd))
+                print(
+                    "------------ new server pid: {} ------------".format(
+                        app_subprocess.pid
+                    )
+                )
+                print("++++++++++++ server restarted ++++++++++++")
+
+
+@cli.command()
+def deploy():
+    os.system("git push heroku")
+
+
+if __name__ == "__main__":
+    cli()

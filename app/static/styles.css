@@ -1,0 +1,112 @@
+body, textarea {
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #f0f0f5;
+}
+
+.hidden {
+    display: none;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+table {
+    border-spacing: 0;
+}
+
+input[type="range"] {
+    background-color: rgba(0, 0, 0, 0);
+    width: 160px;
+}
+
+
+span.left {
+    float: left;
+}
+
+span.right {
+    float: right;
+}
+
+.highlevel table {
+    border-collapse: collapse; /* Remove default spacing between cells */
+}
+
+.highlevel td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Apply padding to table cells in the horizontal direction */
+.highlevel td:not(:last-child) {
+    padding-right: 20px; /* Adjust as needed */
+}
+
+/** FF*//** Most browsers */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type='range'] {
+      overflow: hidden;
+      width: 160px;
+      -webkit-appearance: none;
+      background-color: #dddddd;
+    }
+    input[type='range'].changed {
+        overflow: hidden;
+        width: 160px;
+        -webkit-appearance: none;
+        background-color: #85969d;
+      }
+
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 10px;
+      -webkit-appearance: none;
+      color: #dddddd;
+      margin-top: -1px;
+    }
+    input[type='range'].changed::-webkit-slider-runnable-track {
+        height: 10px;
+        -webkit-appearance: none;
+        color: #13bba4;
+        margin-top: -1px;
+      }
+
+    input[type='range']::-webkit-slider-thumb {
+      width: 10px;
+      height: 10px;
+      cursor: ew-resize;
+      background: #cccccc;
+      box-shadow: -160px 0 0 160px #dddddd;
+    }
+    input[type='range'].changed::-webkit-slider-thumb {
+        width: 10px;
+        height: 10px;
+        cursor: ew-resize;
+        background: #cccccc;
+        box-shadow: -160px 0 0 160px #43e5f7;
+      }
+
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: #43e5f7;
+}
+input[type="range"]::-moz-range-track {
+  background-color: #dddddd;
+}
+input[type="range"].changed::-moz-range-track {
+  background-color: #238597;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #43e5f7;
+}
+input[type="range"]::-ms-fill-upper {
+  background-color: #dddddd;
+}
+input[type="range"]::-ms-fill-upper {
+  background-color: #238597;
+}

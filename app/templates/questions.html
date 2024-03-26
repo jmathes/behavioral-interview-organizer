@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_cleanup")}}">cleanup</a> |
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; questions
+    </p>
+    <title>Behavioral Interview Organizer</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <p class='breadcrumb'>
+        <a href="{{url_for("bio.render_index")}}">home</a>
+        &gt; questions
+    </p>
+    <h1>Questions</h1>
+    <table class="highlevel">
+        <thead>
+            <th>Question</th>
+            <th>Category</th>
+            <th>Good answers</th>
+        </thead>
+        <tbody>
+            {% for question in all_questions %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('bio.render_question', question_id=question.id) }}">
+                            {{ question.question[:40] }}{{ "…" if question.question|length > 40 }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('bio.render_principle', principle_id=question.principle.id) }}">
+                            {{ question.principle.name }}
+                        </a>
+                    </td>
+                    <td>{{ question.good_answers|length }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>
