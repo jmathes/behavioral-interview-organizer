@@ -30,7 +30,7 @@
                 <tr>
                     <td>
                         <a href="{{ url_for('bio.render_question', question_id=question.id) }}">
-                            {{ question.question[:40] }}{{ "…" if question.question|length > 40 }}
+                            {{ question.question }}
                         </a>
                     </td>
                     <td>

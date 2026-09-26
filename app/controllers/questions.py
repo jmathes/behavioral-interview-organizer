@@ -1,11 +1,8 @@
-from pprint import pprint
-
-from flask import redirect, render_template, request, url_for
-
 from app.models.amazon_principle import AmazonPrinciple
 from app.models.question import Question
 from app.models.story import Story
 from app.models.story_applicability import StoryApplicibility
+from flask import redirect, render_template, request, url_for
 
 
 def render_all():
@@ -57,7 +54,6 @@ def render_single(question_id):
         for story in all_stories
     }
 
-    pprint(needy_competition)
     return render_template(
         "question.html", question=question, applicable_stories=applicable_stories
     )

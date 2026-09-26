@@ -1,9 +1,8 @@
-from flask import redirect, render_template, request, url_for
-
 from app.models.amazon_principle import AmazonPrinciple
 from app.models.question import Question
 from app.models.story import Story
 from app.models.story_applicability import StoryApplicibility
+from flask import redirect, render_template, request, url_for
 
 
 def render_single(story_id):
@@ -81,5 +80,4 @@ def render_single(story_id):
 
 def render_all():
     all_stories = Story.query.all()
-    print(all_stories)
     return render_template("stories.html", stories=all_stories)
